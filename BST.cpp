@@ -63,14 +63,14 @@ void BST<ElementType>::copyR(BSTNode<ElementType>* current){
 template <class ElementType>
 BST<ElementType>::~BST(){
 
-    if (root != NULL){
+    if (root != NULL) {
         deleteR(root);
     }
 }
 
 //Description: Helper for destructor (basically postOrderTraversal)
 template <class ElementType>
-void BST<ElementType>::deleteR(BSTNode<ElementType>* current){
+void BST<ElementType>::deleteR(BSTNode<ElementType>*& current){
 
     if (current->hasLeft()){
         deleteR(current->left);
@@ -195,11 +195,11 @@ void BST<ElementType>::traverseInOrderR(void visit(ElementType&), BSTNode<Elemen
     }
 }
 
+// COUNT FUNCTIONS
 template <class ElementType>
 int BST<ElementType>::nodesCount() const {
     return countR(root);
 }
-
 template <class ElementType>
 int BST<ElementType>::countR(BSTNode<ElementType>* current) const {
     if (current == NULL)
@@ -208,6 +208,8 @@ int BST<ElementType>::countR(BSTNode<ElementType>* current) const {
         return 1 + countR(current->left) + countR(current->right);
 }
 
+
+// MIN FUNCTIONS
 template <class ElementType>
 ElementType& BST<ElementType>::min() const {
     if (root == NULL) {
@@ -216,34 +218,31 @@ ElementType& BST<ElementType>::min() const {
         return minR(root);
     }
 }
-
 template <class ElementType>
 ElementType& BST<ElementType>::minR(BSTNode<ElementType>* current) const {
-    if (current->hasLeft()){
+    if (current->hasLeft())
         return minR(current->left);
-    } else {
+    else
         return current->element;
-    }
 }
 
+// MAX FUNCTIONS
 template <class ElementType>
 ElementType& BST<ElementType>::max() const {
-    if (root == NULL) {
+    if (root == NULL)
         throw ElementDoesNotExistInBSTException("No Max element");
-    } else {
+    else
         return maxR(root);
-    }
 }
-
 template <class ElementType>
 ElementType& BST<ElementType>::maxR(BSTNode<ElementType>* current) const {
-    if (current->hasRight()){
+    if (current->hasRight())
         return maxR(current->right);
-    } else {
+    else
         return current->element;
-    }
 }
 
+// DUPLICATE COUNTS (Either 1 or 0 since no dups aloud)
 template <class ElementType>
 int BST<ElementType>::duplicate(const ElementType& targetElement) const {
     if (root == NULL){
@@ -252,7 +251,6 @@ int BST<ElementType>::duplicate(const ElementType& targetElement) const {
         return duplicateR(root, targetElement, 0);
     }
 }
-
 template <class ElementType>
 int BST<ElementType>::duplicateR(BSTNode<ElementType>* current, const ElementType& target, int count) const {
     int newCount = count;
@@ -269,90 +267,114 @@ int BST<ElementType>::duplicateR(BSTNode<ElementType>* current, const ElementTyp
     return newCount;
 }
 
+
 template <class ElementType>
-void BST<ElementType>::remove(const ElementType& targetElement) const throw(ElementDoesNotExistInBSTException) {
+void BST<ElementType>::remove(const ElementType& targetElement) throw(ElementDoesNotExistInBSTException) {
 
-    if (root == NULL) {
-        throw ElementDoesNotExistInBSTException("BST is empty");
-    } else {
-        BSTNode<ElementType>* parent = NULL;
-        BSTNode<ElementType>* current = root;
-        bool found = false;
-
-        while (current != NULL && !found) {
-            if (current->element == targetElement) {
-                found = true;
-            } else {
-                parent = current;
-                if (current->element < targetElement) {
-                    current = current->right;
-                } else {
-                    current = current->left;
-                }
-            }
-        }
-
-        if (!found) {
-            throw ElementDoesNotExistInBSTException("Element not found");
-        }
-
-        // cases
-        if (current->isLeaf()) {
-
-            cout << "Element is a leaf" << endl;
-
-            if (parent->right->element == current->element)
-                parent->right = NULL;
-            else
-                parent->left = NULL;
-            delete current;
-            current = NULL;
-
-        } else if (current->hasLeft() && !current->hasRight()) {
-
-            cout << "Element has empty right" << endl;
-
-            if (parent->right->element == current->element)
-                parent->right = current->left;
-            else
-                parent->left = current->left;
-            delete current;
-            current = NULL;
-
-        } else if (!current->hasLeft() && current->hasRight()) {
-
-            cout << "Element has empty left" << endl;
-
-            if (parent->right->element == current->element)
-                parent->right = current->right;
-            else
-                parent->left = current->right;
-            delete current;
-            current = NULL;
-
-        } else {
-
-            cout << "Element has no empty children" << endl;
-
-            ElementType predecessor = findPredecessor(current);
-            remove(predecessor);
-            current->element = predecessor;
-
-        }
-    }
+    removeR(root, targetElement);
+//    if (root == NULL) {
+//        throw ElementDoesNotExistInBSTException("BST is empty");
+//    } else {
+//        BSTNode<ElementType>* parent = NULL;
+//        BSTNode<ElementType>* current = root;
+//        bool found = false;
+//
+//        while (current != NULL && !found) {
+//            if (current->element == targetElement) {
+//                found = true;
+//            } else {
+//                parent = current;
+//                if (current->element < targetElement) {
+//                    current = current->right;
+//                } else {
+//                    current = current->left;
+//                }
+//            }
+//        }
+//
+//        if (!found) {
+//            throw ElementDoesNotExistInBSTException("Element not found");
+//        }
+//
+//        // cases
+//        if (current->isLeaf()) {
+//
+//            cout << "Element is a leaf" << endl;
+//
+//            if (parent->right->element == current->element)
+//                parent->right = NULL;
+//            else
+//                parent->left = NULL;
+//            delete current;
+//            current = NULL;
+//
+//        } else if (current->hasLeft() && !current->hasRight()) {
+//
+//            cout << "Element has empty right" << endl;
+//
+//            if (parent->right->element == current->element)
+//                parent->right = current->left;
+//            else
+//                parent->left = current->left;
+//            delete current;
+//            current = NULL;
+//
+//        } else if (!current->hasLeft() && current->hasRight()) {
+//
+//            cout << "Element has empty left" << endl;
+//
+//            if (parent->right->element == current->element)
+//                parent->right = current->right;
+//            else
+//                parent->left = current->right;
+//            delete current;
+//            current = NULL;
+//
+//        } else {
+//
+//            cout << "Element has no empty children" << endl;
+//
+//            ElementType predecessor = findPredecessor(current);
+//            remove(predecessor);
+//            current->element = predecessor;
+//
+//        }
+//    }
 }
 
 template <class ElementType>
-ElementType& BST<ElementType>::findPredecessor(BSTNode<ElementType>* current) const {
-
-    BSTNode<ElementType>* traversalNode = current;
-
-    traversalNode = traversalNode->left;
-
-    while (traversalNode->hasLeft()){
-        traversalNode = traversalNode->right;
+void BST<ElementType>::removeR(BSTNode<ElementType>*& current, const ElementType& target) {
+    if (current == NULL) {
+        throw ElementDoesNotExistInBSTException("Element not found");
     }
-
-    return traversalNode->element;
-
+    if (current->element == target){
+        /// 4 CASES
+        if (current->isLeaf()) { // 1 - Leaf
+            cout << "Element is leaf" << endl;
+            delete current;
+            current = NULL;
+            return;
+        } else if (current->hasLeft() && !current->hasRight()) { // 2 - has left but not right
+            cout << "Element has no right" << endl;
+            delete current;
+            current = current->left;
+            return;
+        } else if (!current->hasLeft() && current->hasRight()) { // 3 - has right but not left
+            cout << "Element has no left" << endl;
+            delete current;
+            current = current->right;
+            return;
+        } else { // 4 - has both
+            cout << "Element has both" << endl;
+            ElementType pre = maxR(current->left);
+            cout << "Pre found" << endl;
+            remove(pre);
+            current->element = pre;
+            return;
+        }
+    } else if (current->element < target) {
+        removeR(current->right, target);
+    } else {
+        removeR(current->left, target);
+    }
 }

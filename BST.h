@@ -38,7 +38,7 @@ private:
     void copyR(BSTNode<ElementType>* current);
 
     //Description: Helper for destructor (basically postOrderTraversal)
-    void deleteR(BSTNode<ElementType>* current);
+    void deleteR(BSTNode<ElementType>*& current);
 
 	int countR(BSTNode<ElementType>* current) const;
 
@@ -48,7 +48,7 @@ private:
 
 	ElementType& maxR(BSTNode<ElementType>* current) const;
 
-    ElementType& findPredecessor(BSTNode<ElementType>* current) const;
+    void removeR(BSTNode<ElementType>*& current, const ElementType& target);
 
 public:
 
@@ -85,7 +85,7 @@ public:
 
     int duplicate(const ElementType& targetElement) const;
 
-	void remove(const ElementType& targetElement) const throw(ElementDoesNotExistInBSTException);
+	void remove(const ElementType& targetElement) throw(ElementDoesNotExistInBSTException);
 	
 }; // end BST
 

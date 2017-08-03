@@ -82,24 +82,26 @@ int main() {
         }
         cout << endl;
 
-        WordPair dupPair = WordPair("car");
-        cout << "Number of copies of 'car': " << theTranslator->duplicate(dupPair) << endl;
+        WordPair dupPair = WordPair("leaf");
+        cout << "Number of copies of 'leaf': " << theTranslator->duplicate(dupPair) << endl;
         cout << endl;
 
-        cout << "Removing car..." << endl;
+        cout << "Removing leaf..." << endl;
         try {
             theTranslator->remove(dupPair);
         } catch(ElementDoesNotExistInBSTException& e) {
             cout << e.what() << endl;
         }
 
-        cout << "Number of copies of 'car' now: " << theTranslator->duplicate(dupPair) << endl;
+        cout << "Number of copies of 'leaf' now: " << theTranslator->duplicate(dupPair) << endl;
         cout << endl;
 
         cout << "Test inOrderTraverse: " << endl;
         cout << endl;
 
         theTranslator->traverseInOrder(display);
+
+
 
     } else {
         cout << "Unable to open file";
