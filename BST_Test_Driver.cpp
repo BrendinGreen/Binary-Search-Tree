@@ -101,9 +101,6 @@ int main() {
 
         theTranslator->traverseInOrder(display);
 
-
-
-
     } else {
         cout << "Unable to open file";
     }

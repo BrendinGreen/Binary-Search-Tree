@@ -197,32 +197,15 @@ void BST<ElementType>::traverseInOrderR(void visit(ElementType&), BSTNode<Elemen
 
 template <class ElementType>
 int BST<ElementType>::nodesCount() const {
-
-    if (root == NULL){
-        return 0;
-    } else {
-        return countR(root, 0);
-    }
-
+    return countR(root);
 }
 
 template <class ElementType>
-int BST<ElementType>::countR(BSTNode<ElementType>* current, int count) const {
-
-    //cout << "New Node: " << endl;
-    //cout << "Count is now: " << count++ << endl;
-
-    int newCount = count;
-    newCount++;
-
-    if (current->hasLeft()){
-        newCount = countR(current->left, newCount);
-    }
-    if (current->hasRight()){
-        newCount = countR(current->right, newCount);
-    }
-    return newCount;
-
+int BST<ElementType>::countR(BSTNode<ElementType>* current) const {
+    if (current == NULL)
+        return 0;
+    else
+        return 1 + countR(current->left) + countR(current->right);
 }
 
 template <class ElementType>
