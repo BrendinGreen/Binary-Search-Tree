@@ -42,7 +42,7 @@ private:
 
 	int countR(BSTNode<ElementType>* current) const;
 
-    int duplicateR(BSTNode<ElementType>* current, const ElementType& target, int count) const;
+    int duplicateR(BSTNode<ElementType>* current, const ElementType& target) const;
 
 	ElementType& minR(BSTNode<ElementType>* current) const;
 

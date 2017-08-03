@@ -174,25 +174,21 @@ ElementType& BST<ElementType>::retrieveR(const ElementType& targetElement, BSTNo
 // Time efficiency: O(n)
 template <class ElementType>
 void BST<ElementType>::traverseInOrder(void visit(ElementType&)) const {
-    if (root != NULL){
+    if (root != NULL)
         traverseInOrderR(visit, root);
-    } else {
+    else
         cout << "Root NULL, traverse ends here" << endl;
-    }
 }
 
 
 //Description: Helper for traversInOrder
 template <class ElementType>
 void BST<ElementType>::traverseInOrderR(void visit(ElementType&), BSTNode<ElementType>* current) const {
-
-    if (current->hasLeft()){
+    if (current->hasLeft())
         traverseInOrderR(visit, current->left);
-    }
     visit(current->element);
-    if (current->hasRight()){
+    if (current->hasRight())
         traverseInOrderR(visit, current->right);
-    }
 }
 
 // COUNT FUNCTIONS
@@ -245,26 +241,16 @@ ElementType& BST<ElementType>::maxR(BSTNode<ElementType>* current) const {
 // DUPLICATE COUNTS (Either 1 or 0 since no dups aloud)
 template <class ElementType>
 int BST<ElementType>::duplicate(const ElementType& targetElement) const {
-    if (root == NULL){
-        return 0;
-    } else {
-        return duplicateR(root, targetElement, 0);
-    }
+    return duplicateR(root, targetElement);
 }
 template <class ElementType>
-int BST<ElementType>::duplicateR(BSTNode<ElementType>* current, const ElementType& target, int count) const {
-    int newCount = count;
-    if (current->element == target) {
-        newCount++;
-    }
-
-    if (current->hasLeft()){
-        newCount = duplicateR(current->left, target, newCount);
-    }
-    if (current->hasRight()){
-        newCount = duplicateR(current->right, target, newCount);
-    }
-    return newCount;
+int BST<ElementType>::duplicateR(BSTNode<ElementType>* current, const ElementType& target) const {
+    if (current == NULL)
+        return 0;
+    else if (current->element == target)
+        return 1 + duplicateR(current->left, target) + duplicateR(current->right, target);
+    else
+        return 0 + duplicateR(current->left, target) + duplicateR(current->right, target);
 }
 
 
@@ -367,7 +353,6 @@ void BST<ElementType>::removeR(BSTNode<ElementType>*& current, const ElementType
         } else { // 4 - has both
             cout << "Element has both" << endl;
             ElementType pre = maxR(current->left);
-            cout << "Pre found" << endl;
             remove(pre);
             current->element = pre;
             return;
