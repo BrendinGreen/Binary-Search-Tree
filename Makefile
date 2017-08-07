@@ -16,4 +16,4 @@ ElementAlreadyExistsInBSTException.o: ElementAlreadyExistsInBSTException.h Eleme
 	g++ -Wall -std=c++11 -c ElementAlreadyExistsInBSTException.cpp
 		
 clean:
-	del -f BST_Test_Driver *.o
+	rm -f BST_Test_Driver *.o
